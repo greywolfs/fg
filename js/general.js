@@ -1,3 +1,21 @@
+HTMLElement.prototype.removeClass = function(remove) {
+	var newClassName = "";
+	var i;
+	var classes = this.className.split(" ");
+	for(i = 0; i < classes.length; i++) {
+		if(classes[i] !== remove) {
+			newClassName += classes[i] + " ";
+		}
+	}
+	this.className = newClassName;
+}
+NodeList.prototype.removeClass = function(remove){
+	var nodeList = document.getElementsByTagName("div");
+	for (var i = 0; i < nodeList.length; ++i) {
+		nodeList[i].removeClass(remove);
+	}
+}
+
 var app = angular.module('finance_game',['lvl.directives.dragdrop']).controller('finance_game', function($scope, $http){
 	$scope.parser = 0;
 	$scope.load = false;
@@ -10,7 +28,8 @@ var app = angular.module('finance_game',['lvl.directives.dragdrop']).controller(
 		{'key': 'Аренда квартиры', 'value': 26000},
 		{'key': 'Комунальные услуги', 'value': 2000}
 	];
-	$scope.cash_flow = function(){
+	$scope.cash_flow = 0;
+	function count_cash_flow(){
 		var full_income = 0,
 			full_expenditure = 0;
 		angular.forEach($scope.income, function(income){
@@ -19,8 +38,10 @@ var app = angular.module('finance_game',['lvl.directives.dragdrop']).controller(
 		angular.forEach($scope.expenditure, function(expenditure){
 			full_expenditure += expenditure.value;
 		});
-		return full_income - full_expenditure;
-	};
+		$scope.cash_flow = full_income - full_expenditure;
+	}
+
+	count_cash_flow();
 
 	$scope.change_parent = function(dragEl,dropEl){
 		if (dropEl === dragEl.parentElement){
@@ -38,7 +59,10 @@ var app = angular.module('finance_game',['lvl.directives.dragdrop']).controller(
 			$scope.expenditure.push(element);
 			$scope.income.splice(drag_index,1);
 		}
-		$scope.$apply();
+		count_cash_flow();
+		$scope.$digest();
+		document.getElementsByClassName("lvl-target").removeClass("lvl-target");
+		document.getElementsByClassName("lvl-over").removeClass("lvl-over");
 	};
 
 	$scope.dropped = function(dragEl, dropEl) {
