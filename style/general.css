@@ -1,0 +1,10 @@
+#dragg{
+	background-color: red;
+}
+.income, .expenditure{
+	width: 300px;
+	padding: 10px;
+}
+.lvl-over{
+	background-color: rgb(253, 237, 237);
+}

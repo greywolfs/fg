@@ -1,0 +1,30 @@
+<head>
+	<title>finance_game</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="StyleSheet" href="style/general.css" type="text/css">
+	<script src="js/lib/angular-1.2.9/angular.min.js"></script>
+	<script src="js/lib/angular-1.2.9/i18n/angular-locale_ru-ru.js"></script>
+	<script src="js/lib/lvl-uuid.js"></script>
+	<script src="js/lib/lvl-drag-drop.js"></script>
+	<script src="js/general.js" type="text/javascript" language="javascript"></script>
+</head>
+<body ng-app="finance_game" ng-controller="finance_game">
+	<div class="income" x-lvl-drop-target="true" x-on-drop="change_parent(dragEl, dropEl)">
+		<b>Доходы</b>
+		<div ng-repeat="i in income" x-lvl-draggable="true" index="{{$index}}">
+			<div style="float: left">{{i.key}}</div>
+			<div style="float: right">{{i.value}}</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div class="expenditure" x-lvl-drop-target="true" x-on-drop="change_parent(dragEl, dropEl)">
+		<b>Расходы</b>
+		<div ng-repeat="i in expenditure" x-lvl-draggable="true" index="{{$index}}">
+			<div style="float: left">{{i.key}}</div>
+			<div style="float: right">{{i.value}}</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div><b>Денежный поток:</b> {{cash_flow()}}</div>
+</body>
